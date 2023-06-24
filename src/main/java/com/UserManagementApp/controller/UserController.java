@@ -1,20 +1,45 @@
 package com.UserManagementApp.controller;
 
 import com.UserManagementApp.model.User;
+import com.UserManagementApp.repository.UserRepository;
 import com.UserManagementApp.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import javax.servlet.http.HttpSession;
+import java.security.Principal;
 
 @Controller
 public class UserController {
 
     @Autowired
     private UserService userService;
+
+
+
+    @Autowired
+    private UserRepository userRepository;
+
+    @ModelAttribute
+    private void userDetails(Model m, Principal p){
+
+        if(p != null){
+            String email = p.getName();
+            User user = userRepository.findByEmail(email);
+            m.addAttribute("user",user);
+        }
+    }
+
+
+
+
+
+
+
 
     @GetMapping("/")
     public String index() {
