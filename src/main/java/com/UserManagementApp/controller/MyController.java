@@ -29,4 +29,12 @@ public class MyController {
     public String home(){
         return "user/home";
     }
+
+    @GetMapping("/changePassword")
+    public String loadChangePassword(){
+        return "user/changePass";
+    }
+
+
+
 }
