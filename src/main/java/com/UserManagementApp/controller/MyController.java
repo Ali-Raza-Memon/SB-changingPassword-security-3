@@ -55,7 +55,7 @@ public class MyController {
             System.out.println("Wrong Old password");
         }
 
-        return "redirect:/user/changePass";
+        return "/user/changePass";
     }
 
 
