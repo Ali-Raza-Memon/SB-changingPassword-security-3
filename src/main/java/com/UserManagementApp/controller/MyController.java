@@ -8,6 +8,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpSession;
 import java.security.Principal;
 
 @Controller
@@ -41,7 +42,7 @@ public class MyController {
 
     @PostMapping("/updatePass")
     public String changePassword(Principal p, @RequestParam("oldPass") String oldPass,
-                                 @RequestParam("newPass") String newPass){
+                                 @RequestParam("newPass") String newPass, HttpSession session){
 
         String email = p.getName();
         User loginUser = userRepository.findByEmail(email);
@@ -50,9 +51,16 @@ public class MyController {
 
 
         if(f){
-            System.out.println("Correct old password");
+
+            loginUser.setPassword(passwordEncoder.encode(newPass));
+            User updatePasswordUser = userRepository.save(loginUser);
+            if(updatePasswordUser != null){
+                session.setAttribute("msg", "Password change success");
+            }else{
+                session.setAttribute("msg", "Something wrong on server");
+            }
         }else{
-            System.out.println("Wrong Old password");
+            session.setAttribute("msg", "Old password incorrect");
         }
 
         return "/user/changePass";
