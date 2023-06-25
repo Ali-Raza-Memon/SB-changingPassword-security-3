@@ -18,9 +18,6 @@ public class UserController {
 
     @Autowired
     private UserService userService;
-
-
-
     @Autowired
     private UserRepository userRepository;
 
@@ -33,12 +30,6 @@ public class UserController {
             m.addAttribute("user",user);
         }
     }
-
-
-
-
-
-
 
 
     @GetMapping("/")
